@@ -1,0 +1,30 @@
+name: NodeJS with Gulp
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]  # Define the Node.js versions to test
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4  # Use the latest stable version of checkout
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4  # Use the latest stable version of setup-node
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install  # Install npm dependencies
+
+    - name: Build with Gulp
+      run: gulp  # Run the Gulp build task
